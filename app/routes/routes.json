@@ -1,0 +1,9 @@
+{
+    "index": "/index",
+    "login": "/login",
+    "signup": "/signup",
+    "home": "/home",
+    "create": "/create",
+    "update": "/update",
+    "delete": "/delete"
+}
