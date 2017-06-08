@@ -1,0 +1,9 @@
+<div class="container">
+  <form action="/update?{{post._id}}" method="post">
+    <input type="text" name="blogTitle" placeholder="Blog Title" value="{{post.title}}" />
+    <br />
+    <textarea rows="6" cols="25" name="postBody" placeholder="Blog Body">{{post.post}}</textarea>
+    <br />
+    <input type="submit" value="Edit Post" />
+  </form>
+</div>

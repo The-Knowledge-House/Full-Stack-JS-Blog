@@ -3,14 +3,15 @@ var express = require("express"),
     hbs = require("hbs"),
     path = require("path"),
     session = require("express-session"),
-    mongoose = require("mongooose"),
+    mongoose = require("mongoose"),
     passport = require("passport"),
-    auth = require("./blog/auth/auth"),
-    routes = require("./blog/routes/routes"),
+    methodOverride = require("method-override"),
+    auth = require("./app/auth/passport-local"),
+    routes = require("./app/routes/routes"),
     app = express();
 
 
-app.use("/static", express.static(path.join(__dirname, "blog/client")));
+app.use("/static", express.static(path.join(__dirname, "app/client")));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -23,10 +24,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use(methodOverride('_method'));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.set("views", path.join(__dirname, "blog/views"));
+app.set("views", path.join(__dirname, "app/views"));
 app.set("view engine", "hbs");
 
 auth(passport);
@@ -35,4 +38,3 @@ routes(app, passport);
 mongoose.connect("mongodb://localhost/blog");
 app.listen(8080);
 console.log("Blog is Running");
-

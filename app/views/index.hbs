@@ -1,0 +1,14 @@
+<div>
+  <a href="/create">Create Post</a>
+  {{#if status}}
+    <div class="alert alert-danger" role="alert">Failed!</div>
+  {{else}}
+    <div></div>
+  {{/if}}
+  <h1>Posts</h1>
+  {{#each posts}}
+    <a href="/post?p={{this._id}}">{{this.title}}</a>
+    by: {{this.user}}
+    Date: {{this.date.month}} / {{this.date.day}} / {{this.date.year}}
+  {{/each}}
+</div>

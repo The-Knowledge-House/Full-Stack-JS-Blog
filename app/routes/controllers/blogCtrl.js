@@ -1,5 +1,25 @@
 var Post = require("../../models/blogModel");
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function today(){
     var date = new Date();
     var day = date.getDate();
@@ -28,13 +48,19 @@ var blogPages = {
         });
     },
     update: function(req, res){
-        res.render("update", {
-            user: req.user.username
-        });
+      Post.findOne({"_id": req.query.post}, function(err, post){
+        if(err){
+          console.log(err);
+        } else {
+          res.render("update", {
+              post: post
+          });
+        }
+      });
     }
 };
 
-function createBlogPost(callback){
+function createBlogPost(req, res){
     new Post({
         title: req.body.blogTitle,
         post: req.body.postBody,
@@ -46,23 +72,49 @@ function createBlogPost(callback){
         user: req.user.username
     }).save(function(err){
         if(err){
-            console.log(err);
+          console.log(err);
         } else {
-            callback({
-                "success": true,
-                "reason": "New post made!"
-            });
+          res.redirect("/index");
         }
     })
 }
 
-function updateBlogPost(){
-    
+
+function updateBlogPost(req, res){
+  Post.update({"_id": req.query.id}, {$set: {"post": req.body.postBody, "title": req.body.blogTitle}}, function(err, doc){
+    if(err){
+      res.redirect("/index?update=fail");
+    } else {
+      res.redirect("/index?update=success");
+    }
+  });
 }
+
+
+
+
+
+
+function deleteBlogPost(req, res){
+  Post.remove({"_id": req.query.post}, function(err, post){
+    if(err){
+      console.log(err);
+    } else {
+        res.redirect("/index");
+    }
+  });
+}
+
+
+
+
+
+
+
 
 exports.create = createBlogPost;
 exports.update = updateBlogPost;
+exports.delete = deleteBlogPost;
 
 exports.createPage = blogPages.create;
 exports.updatePage = blogPages.update;
-

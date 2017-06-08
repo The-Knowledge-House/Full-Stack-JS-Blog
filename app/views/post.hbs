@@ -1,0 +1,10 @@
+<a href="/index">Back</a>
+
+<h1>{{current.title}} By: {{current.user}} Date: {{current.date.month}}/{{current.date.day}}/{{current.date.year}}</h1>
+<p>{{current.post}}</p>
+
+<a href="/update?post={{current._id}}">Edit this post</a>
+<br />
+<form method="POST" action="/delete?_method=DELETE&amp;post={{current._id}}">
+  <button class="btn btn-danger" type="submit">Delete</button>
+</form>
